@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cenizas — Indelebles</title>
+    <link rel="stylesheet" href="cenizas.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Elms+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="page-container">
+        
+        <header class="main-header">
+            <nav class="nav-navigation">
+                <a href="indelebles.html" class="nav-item nav-link">indelebles</a>
+                <div class="nav-logo">
+                    <a href="index.html">
+                        <img src="menu.svg" alt="Inicio" class="logo-vector">
+                    </a>
+                </div>
+                <span class="nav-item active">cenizas</span>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            
+            <section class="intro-section">
+                <h1 class="project-title">cenizas</h1>
+                <p class="project-description">
+                    personalmente considero mis recuerdos como aquel polvito negro que queda después de una intensa llamarada, frágil resultado de tan intenso evento, capaz de manchar y dejar débiles marcas aún después de que el viento se las llevó, difíciles de acomodar y recoger; tal cuál mis memorias escurridizas, en esta pequeña sección buscaremos juntos alguna forma de evitar que alguna pequeña brisa los aleje permanentemente de mí.
+                </p>
+            </section>
+
+<section class="gallery-grid">
+                
+                <figure class="gallery-item item-1">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_01.png" alt="Recuerdo 01">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">Fecha del recuerdo 1</p>
+                            <p>Texto de esta memoria...</p>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure class="gallery-item item-2">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_02.png" alt="Recuerdo 02">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">Fecha del recuerdo 2</p>
+                            <p>Texto de esta memoria...</p>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure class="gallery-item item-3">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_03.png" alt="Recuerdo 03">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">Fecha del recuerdo 3</p>
+                            <p>Texto de esta memoria...</p>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure class="gallery-item item-4">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_04.png" alt="Recuerdo 04">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">Fecha del recuerdo 4</p>
+                            <p>Texto de esta memoria...</p>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure class="gallery-item item-5">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_05.png" alt="Recuerdo 05">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">Fecha del recuerdo 5</p>
+                            <p>Texto de esta memoria...</p>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure class="gallery-item item-6">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_06.png" alt="Recuerdo 06">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">Fecha del recuerdo 6</p>
+                            <p>Texto de esta memoria...</p>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure class="gallery-item item-7">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_07.png" alt="Recuerdo 07">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">Fecha del recuerdo 7</p>
+                            <p>Texto de esta memoria...</p>
+                        </div>
+                    </div>
+                </figure>
+
+            </section>
+        </main>
+
+    </div>
+
+    <div class="modal-overlay" id="overlay"></div>
+
+    <script>
+    const postales = document.querySelectorAll('.gallery-item');
+    const overlay = document.getElementById('overlay');
+
+        postales.forEach(postal => {
+            postal.addEventListener('click', () => {
+                
+                if(postal.classList.contains('is-expanded')) {
+                    // Si la postal ya está grande, el clic sirve para voltearla (Cara A o Cara B)
+                    postal.classList.toggle('is-flipped');
+                } else {
+                    // Si está pequeña en la retícula, cerramos otras y reseteamos sus giros
+                    postales.forEach(p => {
+                        p.classList.remove('is-expanded');
+                        p.classList.remove('is-flipped');
+                    });
+                    
+                    // Y finalmente hacemos grande la postal seleccionada
+                    postal.classList.add('is-expanded');
+                    overlay.classList.add('is-active');
+                }
+            });
+        });
+
+        // Ahora, para cerrar la postal, el clic debe ser en el telón de fondo oscuro
+        overlay.addEventListener('click', () => {
+            postales.forEach(p => {
+                p.classList.remove('is-expanded');
+                // Es vital quitarle el giro al cerrar para que la próxima vez inicie de frente
+                p.classList.remove('is-flipped'); 
+            });
+            overlay.classList.remove('is-active');
+        });
+    </script>
+
+</body>
+</html>
