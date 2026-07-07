@@ -1,0 +1,116 @@
+/* ==========================================================================
+   1. VARIABLES DEL SISTEMA (Consistentes con todo el sitio)
+   ========================================================================== */
+:root {
+    --color-bg: #f3f3f3;
+    --color-primary: #bf9a2c;
+    --color-dark: #593825;
+    --max-width: 1484px;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-dark);
+    font-family: 'Elms Sans', sans-serif;
+    overflow-y: scroll;
+}
+
+.page-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 48px 64px;
+}
+
+/* ==========================================================================
+   2. NAVEGACIÓN
+   ========================================================================== */
+.main-header { margin-bottom: 80px; }
+
+.nav-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-size: 18px;
+    text-transform: lowercase;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--color-dark);
+    letter-spacing: 1px;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover { opacity: 0.7; }
+
+.nav-link::before, .nav-link::after {
+    content: "|";
+    margin: 0 12px;
+    color: var(--color-primary);
+}
+
+.nav-logo { padding: 0 8px; }
+.logo-vector { width: 48px; }
+
+/* ==========================================================================
+   3. INTRODUCCIÓN (Ajustada al sistema central)
+   ========================================================================== */
+.intro-section {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 24px; /* Igualamos al grid-gap de 24px */
+    margin-bottom: 80px;
+}
+
+.project-title {
+    grid-column: 1 / span 4; /* Ajustado para que ocupe solo 4 columnas */
+    font-family: 'Lora', serif;
+    font-size: 100px; /* Igual al tamaño de las otras páginas */
+    font-weight: 600;
+    line-height: 1;
+    color: #60731D;
+    margin-bottom: 24px;
+}
+
+.project-description {
+    grid-column: 1 / -1; /* Se extiende a lo largo de toda la retícula, igual que en Cenizas */
+    font-size: 24px;
+    line-height: 1.6;
+    text-align: justify;
+    color: #60731D;
+}
+
+/* ==========================================================================
+   4. CARRUSEL (Scroll Horizontal)
+   ========================================================================== */
+.carousel-container {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 20px; /* Espacio para la barra de scroll */
+}
+
+.carousel-track {
+    display: flex;
+    gap: 32px;
+    padding: 20px 0;
+}
+
+.carousel-item {
+    flex: 0 0 350px; /* Ancho fijo para cada postal del carrusel */
+    height: 450px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Definimos el color amarillo para los elementos activos */
+.nav-item.active {
+    color: #BF9A2C;
+}
