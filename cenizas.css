@@ -1,0 +1,425 @@
+/* ==========================================================================
+   1. VARIABLES Y CONFIGURACIÓN DEL SISTEMA
+   ========================================================================== */
+:root {
+    /* Paleta de Colores (Extraída de tu diseño original) */
+    --color-bg: #f3f3f3;       /* Tono gris claro/durazno de fondo */
+    --color-primary: #bf9a2c;  /* Dorado / Ocre de acento */
+    --color-dark: #593825;     /* Marrón oscuro para tipografía secundaria */
+    --color-white: #ffffff;
+
+    /* Tipografías */
+    --font-heading: 'Lora', serif;
+    --font-body: 'Elms Sans', sans-serif;
+
+    /* Grid y Espaciados */
+    --grid-columns: 12;
+    --grid-gap: 24px;
+    --max-width: 1484px; /* Tu resolución base de Figma */
+}
+
+/* Reset básico para limpiar estilos del navegador */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-primary); /* En indelebles.css puede que tengas el color dark, consérvalo */
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    overflow-y: scroll; /* <-- Esta es la regla clave que elimina el salto */
+}
+
+/* ==========================================================================
+   2. CONTENEDOR MAESTRO (Layout Base)
+   ========================================================================== */
+.page-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 48px 64px; /* Un colchón limpio en los bordes */
+}
+
+/* ==========================================================================
+   3. HEADER / NAVEGACIÓN
+   ========================================================================== */
+.main-header {
+    width: 100%;
+    margin-bottom: 64px;
+}
+
+.nav-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-size: 18px;
+    text-transform: lowercase;
+}
+
+.nav-item {
+    color: var(--color-dark);
+    letter-spacing: 1px; 
+}
+
+/* Limpiamos el subrayado y forzamos el color café incluso si ya se le dio clic */
+.nav-link,
+.nav-link:visited {
+    text-decoration: none;
+    color: var(--color-dark); /* Esta es la línea clave que elimina el morado */
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+    opacity: 0.7;
+}
+
+/* Separadores visuales (reemplazando los parches absolutos por pseudo-elementos) */
+.nav-item::before,
+.nav-item::after {
+    content: "|";
+    margin: 0 12px;
+    color: var(--color-primary);
+    opacity: 0.7;
+}
+
+/* Quitamos los pipes sobrantes de los extremos */
+.nav-navigation .nav-item:first-child::before,
+.nav-navigation .nav-item:last-child::after {
+    content: "";
+    margin: 0;
+}
+
+.nav-item.active {
+    color: var(--color-primary);
+    font-weight: normal; /* Cambiamos 600 por normal, o simplemente puedes borrar la línea */
+}
+
+/* Centrado vertical matemático del logo */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+}
+
+/* ESTA REGLA MATA EL ESPACIO FANTASMA */
+.nav-logo a {
+    display: flex; 
+    align-items: center;
+    text-decoration: none;
+}
+
+/* Le quitamos cualquier margen por defecto a la imagen */
+.nav-logo a img {
+    display: block; 
+    width: 48px;
+    height: auto;
+}
+
+/* ==========================================================================
+   4. INTRODUCCIÓN (Título y Párrafo)
+   ========================================================================== */
+.intro-section {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    column-gap: var(--grid-gap);
+    margin-bottom: 80px;
+}
+
+.project-title {
+    grid-column: 1 / span 4;
+    font-family: var(--font-heading);
+    font-size: 100px; /* Ajustado al valor exacto de Figma */
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-primary);
+}
+
+.project-description {
+    grid-column: 1 / -1; /* Se extiende a lo largo de toda la retícula abajo del título */
+    margin-top: 24px;
+    font-size: 24px;
+    color: var(--color-primary);
+    text-align: justify;
+    max-width: 100%;
+}
+
+/* ==========================================================================
+   5. GALERÍA EN RETÍCULA (CSS Grid Real)
+   ========================================================================== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    column-gap: var(--grid-gap);
+    row-gap: 48px; /* Controla el espaciado vertical entre filas de imágenes */
+    align-items: start;
+}
+
+/* Estilos comunes para los contenedores de fotos y los marcos */
+.gallery-item {
+    background-color: var(--color-white); 
+    padding: 0; 
+    border: none; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+    transition: transform 0.3s ease;
+    cursor: pointer; /* ¡Esta es la línea mágica que cambia la flecha por la manita! */
+}
+
+/* ==========================================================================
+   EFECTO FLIP CARD (Postales interactivas)
+   ========================================================================== */
+
+/* 1. El contenedor principal (Tu clase existente) */
+.gallery-item {
+    background-color: transparent; /* Importante para que no se vea un fondo sólido al girar */
+    perspective: 1000px; /* Esto le dice al navegador que el objeto tiene profundidad 3D */
+}
+
+/* 2. El mecanismo interno que ejecuta la rotación */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Una transición suave y fluida */
+    transform-style: preserve-3d; /* Mantiene a los hijos en un espacio 3D */
+}
+
+/* 3. El disparador: Al pasar el cursor, el interior gira 180 grados */
+.gallery-item:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* 4. Propiedades compartidas para ambas caras */
+.flip-card-front, 
+.flip-card-back {
+    width: 100%;
+    -webkit-backface-visibility: hidden; /* Soporte para Safari */
+    backface-visibility: hidden; /* Oculta la cara que está de espaldas */
+}
+
+/* 5. Estilos de la Cara A (Frente) */
+.flip-card-front {
+    /* Al no tener position absolute, la imagen define la altura real de la tarjeta */
+    position: relative; 
+}
+
+.flip-card-front img {
+    width: 100%;
+    height: auto; /* Mantiene la proporción natural de tu fotografía */
+    display: block;
+}
+
+/* 6. Estilos de la Cara B (Reverso) */
+.flip-card-back {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    
+    /* Mantenemos el comportamiento del fondo, pero quitamos la URL de la imagen */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+       
+    color: var(--color-dark);
+    transform: rotateY(180deg);
+    padding: 32px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    
+    border: none; 
+}
+
+/* Ajustes tipográficos para el texto del reverso */
+.fecha-recuerdo {
+    font-weight: bold;
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ==========================================================================
+   6. POSICIONAMIENTO EN LAS 12 COLUMNAS (Bloques Izquierda vs Derecha)
+   ========================================================================== */
+
+/* --- COLUMNA IZQUIERDA (Ocupan de la columna 1 a la 6) --- */
+.item-1 {
+    grid-column: 1 / span 6;
+    grid-row: 1; 
+    align-self: center; /* Alineación mágica al centro vertical de la fila */
+    margin-top: 0; 
+}
+
+.item-3 {
+    grid-column: 1 / span 6;
+    grid-row: 2; 
+    align-self: center; /* Alineación mágica al centro vertical de la fila */
+    margin-top: 0;
+}
+
+.item-5 {
+    grid-column: 1 / span 6;
+    grid-row: 3; 
+    margin-top: 0; /* Limpiamos el margen para alinearlas a la misma altura */
+}
+
+.item-7 {
+    grid-column: 1 / span 6;
+    grid-row: 4; 
+    margin-top: 24px;
+}
+
+/* --- COLUMNA DERECHA (Ocupan de la columna 7 a la 12) --- */
+.item-2 {
+    grid-column: 8 / span 4; /* Vertical y centrada en su mitad */
+    grid-row: 1; 
+    margin-top: 0; /* Limpiamos márgenes para que la izquierda se centre exacto */
+}
+
+.item-4 {
+    grid-column: 8 / span 4; /* Vertical y centrada en su mitad */
+    grid-row: 2; 
+    margin-top: 0;
+}
+
+.item-6 {
+    grid-column: 7 / span 6; 
+    grid-row: 3; 
+    margin-top: 0; /* Limpiamos el margen asimétrico para que empate perfecto con la 5 */
+}
+
+/* ==========================================================================
+   MODO ENFOQUE (POSTAL EXPANDIDA)
+   ========================================================================== */
+
+/* 1. El telón oscuro (Oculto por defecto) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #593825; /* Tono oscuro de tu paleta */
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.modal-overlay.is-active {
+    opacity: 50%;
+    pointer-events: auto;
+}
+
+/* 2. El estado "Grande" de la postal */
+.gallery-item.is-expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 800px; 
+    height: auto; /* Cambiamos el 70vh por auto para que respete la foto */
+    z-index: 100;
+    margin: 0; 
+    cursor: pointer;
+}
+
+/* Regla nueva para proteger la proporción de la fotografía al expandirse */
+.gallery-item.is-expanded .flip-card-front img {
+    width: 100%;
+    height: auto;
+    max-height: 85vh; /* Protege que no se desborde hacia arriba o abajo en la pantalla */
+    object-fit: contain; /* Fuerza a que se muestre completa sin cortes */
+}
+
+/* 3. Ajuste lógico del Flip Card */
+/* Quitamos el giro al pasar el cursor para que no pase nada por accidente */
+.gallery-item:hover .flip-card-inner {
+    transform: none; 
+}
+
+/* Activamos el giro SOLO cuando la postal expandida recibe la clase 'is-flipped' */
+.gallery-item.is-expanded.is-flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Aseguramos que la imagen y la tarjeta tomen la nueva altura grande */
+.gallery-item.is-expanded .flip-card-front,
+.gallery-item.is-expanded .flip-card-back {
+    height: 100%;
+}
+
+/* ==========================================================================
+   EXCEPCIÓN PARA POSTALES VERTICALES EN MODO ENFOQUE
+   ========================================================================== */
+
+/* Apuntamos a las postales 2 y 4 (Tus verdaderas verticales) */
+.item-2.is-expanded,
+.item-4.is-expanded {
+    width: fit-content; 
+    height: 85vh;       
+    max-width: 90vw;    
+}
+
+.item-2.is-expanded .flip-card-front img,
+.item-4.is-expanded .flip-card-front img {
+    width: auto;
+    height: 100%;
+    max-height: none; 
+}
+
+/* ==========================================================================
+   TEXTURAS INDIVIDUALES PARA LA CARA B (CONTRACARAS)
+   ========================================================================== */
+
+/* Postal 1 */
+.item-1 .flip-card-back {
+    background-image: url('reves_01.png'); /* Cambia esto por el nombre exacto de tu imagen */
+}
+
+/* Postal 2 (Vertical) */
+.item-2 .flip-card-back {
+    background-image: url('reves_02.png'); 
+}
+
+/* Postal 3 */
+.item-3 .flip-card-back {
+    background-image: url('reves_03.png'); 
+}
+
+/* Postal 4 (Vertical) */
+.item-4 .flip-card-back {
+    background-image: url('reves_04.png'); 
+}
+
+/* Postal 5 */
+.item-5 .flip-card-back {
+    background-image: url('reves_05.png'); 
+}
+
+/* Postal 6 */
+.item-6 .flip-card-back {
+    background-image: url('reves_06.png'); 
+}
+
+/* Postal 7 */
+.item-7 .flip-card-back {
+    background-image: url('reves_07.png'); 
+}
