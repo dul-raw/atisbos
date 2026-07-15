@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indelebles</title>
+
+    <link rel="icon" type="image/svg+xml" href="menu.svg">
+
+    <link rel="stylesheet" href="indelebles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Elms+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="page-container">
+        
+        <header class="main-header">
+            <nav class="nav-navigation">
+                <!-- Quitamos la clase 'active' para que recupere su color café natural -->
+                <span class="nav-item">indelebles</span>
+                
+                <div class="nav-logo">
+                    <a href="index.html">
+                        <img src="menu.svg" alt="Inicio" class="logo-vector">
+                    </a>
+                </div>
+                
+                <!-- Se la agregamos al enlace de cenizas para que se vuelva amarillo -->
+                <a href="cenizas.html" class="nav-item nav-link active">cenizas</a>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            
+            <section class="intro-section">
+                <h1 class="project-title">indelebles</h1>
+                <p class="project-description">
+                    como las personas en mi corazón, como las marcas que se quedan para siempre en un pequeño pedacito de papel, así son las personas para mí, una señal eterna que se queda conmigo.
+                </p>
+            </section>
+
+            <section class="gallery-grid">
+                
+                <figure class="gallery-item item-1">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_08.png" alt="Hombre recostado en cama">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">17 de octubre de 2022</p>
+                            <p>Mi abuelo siempre sostuvo que detestaba a mi conejita, sin embargo siempre dejaba la puerta de su cuarto abierta cuando tomaba su siesta por la tarde, aún sabiendo que ella iría a acompañarlo, tenían una relación rara, ella mordía sus cosas, él la correteaba por toda la casa, aún así; él seguía dejando cosas en el suelo para ella y ella seguía regresando cada vez que él dejaba de perseguirla, supongo que era un poco la manera en que ambos se querían, los dos siempre fueron un poco ariscos y gruñones, tal vez por eso era una interacción rara, no siempre los polos opuestos se atraen, a veces los polos iguales aprenden a convivir entre ellos.</p>
+                        </div>
+                    </div>
+                </figure>
+
+                <figure class="gallery-item item-2">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="frontal_09.png" alt="Pantallas mostrando paletas de color">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fecha-recuerdo">11 de marzo de 2026</p>
+                            <p>ese día creo que me dí cuenta de algo, y es que habían pasado bastantes días sin que estuviera más de dos horas sola, siempre había alguien a mi lado: jime, dir, andys, no me habían dejado sola aún cuando llegaba muy temprano,  siempre estaban ahí, platicando, sonriendo, burlándose, regañando, mirando, callando, simplemente existiendo. me agradan mucho mis amigos, cada uno tiene una forma muy distinta de ver la vida, de enfrentar las situaciones, de reír, de llorar y de hablar, las diferencias entre nosotros han hecho más fuertes nuestras similitudes, me gusta encontrar puntos en común en nuestras diferencias, ¿eso las hace más valiosas? </p>
+                        </div>
+                    </div>
+                </figure>
+
+            </section>
+        </main>
+
+    </div>
+
+    <div class="modal-overlay" id="overlay"></div>
+
+    <script>
+        const postales = document.querySelectorAll('.gallery-item');
+        const overlay = document.getElementById('overlay');
+
+        postales.forEach(postal => {
+            postal.addEventListener('click', () => {
+                if(postal.classList.contains('is-expanded')) {
+                    postal.classList.toggle('is-flipped');
+                } else {
+                    postales.forEach(p => {
+                        p.classList.remove('is-expanded');
+                        p.classList.remove('is-flipped');
+                    });
+                    postal.classList.add('is-expanded');
+                    overlay.classList.add('is-active');
+                }
+            });
+        });
+
+        overlay.addEventListener('click', () => {
+            postales.forEach(p => {
+                p.classList.remove('is-expanded');
+                p.classList.remove('is-flipped'); 
+            });
+            overlay.classList.remove('is-active');
+        });
+    </script>
+
+</body>
+</html>
